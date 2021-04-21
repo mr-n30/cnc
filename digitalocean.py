@@ -6,7 +6,7 @@ from create_droplets import *
 from list_available_sizes import *
 from list_available_distribution_images import *
 
-def digitalocean(api_key):
+def digitalocean(api_key, name):
     try:
         # List available images
         print(f"{colors.inverted}Listing available distributions and regions:{colors.reset}")
@@ -28,15 +28,8 @@ def digitalocean(api_key):
         size = input(f"{colors.yellow}Enter the size of droplet you would like to create:{colors.reset} ")
         print(f"You entered: {size}")
 
-        # Name the droplets
-        name = input(f"{colors.yellow}Enter a name for the droplet(s) (a-z, A-Z, 0-9, . and -):{colors.reset} ")
-
         # Create droplet(s)
         create_droplets(api_key, amount, name, region, size, distribution)
-
-        # Write IP's and names to /etc/hosts
-        etc_hosts(api_key, name)
-
 
     except KeyboardInterrupt as e:
         print("")
