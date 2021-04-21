@@ -39,7 +39,7 @@ def main():
         if mode == "config":
             if config:
                 droplet_name = input(f"{colors.yellow}Enter the name you want for the droplet(s):{colors.reset} ")
-                digitalocean(api_key)
+                digitalocean(api_key, name)
                 etc_hosts(api_key, droplet_name)
 
         # Mode: cmd
