@@ -10,7 +10,7 @@ from digitalocean import *
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Command aNd Control multiple servers")
-parser.add_argument("mode", help="Options are: config, cmd, wordlist, upload, download")
+parser.add_argument("mode", help="Options are: config, cmd, wordlist, upload, download, etc")
 parser.add_argument("-C", "--cmd", help="Command(s) to run on droplets")
 parser.add_argument("-u", "--user", help="Username on the droplet running the command(s) on")
 parser.add_argument("-n", "--name", help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
@@ -39,7 +39,11 @@ def main():
         if mode == "config":
             if config:
                 droplet_name = input(f"{colors.yellow}Enter the name you want for the droplet(s):{colors.reset} ")
-                digitalocean(api_key, name)
+                digitalocean(api_key, droplet_name)
+
+        if mode == "etc":
+            if config:
+                droplet_name = input(f"{colors.yellow}Enter the name you want for the droplet(s):{colors.reset} ")
                 etc_hosts(api_key, droplet_name)
 
         # Mode: cmd
@@ -63,6 +67,9 @@ def main():
             else:
                 print(f"{colors.red}Missing one or more of the following arguments: --cmd|--user|--name|--wordlist{colors.reset}")
                 sys.exit(1)
+        else:
+            print(f"{colors.red}INVALID 'mode' SPECIFIED...{colors.end}")
+            sys.exit(1)
 
     except KeyboardInterrupt as e:
         print("")
