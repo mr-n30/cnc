@@ -16,7 +16,7 @@ def commands(api_key, verbose, user, name, cmd):
                 if verbose:
                     print(output.stdout)
         else:
-            print(f"{colors.green}{droplet}:{colors.reset}")
+            print(f"{colors.green}{name}:{colors.reset}")
             output = subprocess.run(f"ssh -o 'StrictHostKeyChecking no' {user}@{name} '{cmd}'", text=True, check=True, shell=True, capture_output=True)
 
             if verbose:
