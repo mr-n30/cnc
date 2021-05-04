@@ -4,7 +4,7 @@ import json
 import requests
 from colors import *
 
-def etc_hosts(api_key, name):
+def etc_hosts(api_key):
     try:
         headers = {
             "Authorization": f"Bearer {api_key}"
@@ -19,9 +19,8 @@ def etc_hosts(api_key, name):
             f.write("\n\n\n# CNC DATA BELOW\n")
 
             for droplet in json_data["droplets"]:
-                if name in droplet["name"]:
-                    print(f"{droplet['networks']['v4'][1]['ip_address']}\t{droplet['name']}")
-                    f.write(f"{droplet['networks']['v4'][1]['ip_address']}\t{droplet['name']}\n")
+                print(f"{droplet['networks']['v4'][1]['ip_address']}\t{droplet['name']}")
+                f.write(f"{droplet['networks']['v4'][1]['ip_address']}\t{droplet['name']}\n")
 
     except IndexError as e:
         pass

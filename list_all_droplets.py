@@ -12,7 +12,15 @@ def list_all_droplets(api_key, name):
 
         json_data = json.loads(r.text)
 
-        if '*' in name:
+        if name == '*':
+            droplets = []
+
+            for droplet_name in json_data["droplets"]:
+                droplets.append(droplet_name["name"])
+
+            return droplets
+
+        elif '*' in name:
             droplets = []
 
             for droplet_name in json_data["droplets"]:

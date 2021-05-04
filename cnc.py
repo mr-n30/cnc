@@ -5,27 +5,33 @@ import yaml
 import requests
 import argparse
 from colors import *
+from uploads import *
 from commands import *
+from downloads import *
 from digitalocean import *
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description="Command aNd Control multiple servers")
 parser.add_argument("mode", help="Options are: config, cmd, wordlist, upload, download, etc")
 parser.add_argument("-C", "--cmd", help="Command(s) to run on droplets")
-parser.add_argument("-u", "--user", help="Username on the droplet running the command(s) on")
-parser.add_argument("-n", "--name", help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
+parser.add_argument("-u", "--user", default="root", help="Username of the droplet running command(s) on (Default is root)")
+parser.add_argument("-n", "--name", default='*', help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
 parser.add_argument("-c", "--config", required=True, help="Path to your config.yaml file containing your API key")
 parser.add_argument("-v", "--verbose", action="store_true", help="If enabled command output will be printed to the terminal")
 parser.add_argument("-w", "--wordlist", help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
+parser.add_argument("-d", "--data", help="Data to upload/download to/from droplet(s) using scp -r (Can be a file or directory)")
+parser.add_argument("-D", "--destination", help="Directory where to save data too using scp -r (Default is ~/)")
 
-args     = parser.parse_args()
-cmd      = args.cmd
-mode     = args.mode
-user     = args.user
-name     = args.name
-config   = args.config
-verbose  = args.verbose
-wordlist = args.wordlist
+args        = parser.parse_args()
+cmd         = args.cmd
+mode        = args.mode
+user        = args.user
+name        = args.name
+data        = args.data
+config      = args.config
+verbose     = args.verbose
+wordlist    = args.wordlist
+destination = args.destination
 
 def main():
     try:
@@ -41,10 +47,10 @@ def main():
                 droplet_name = input(f"{colors.yellow}Enter the name you want for the droplet(s):{colors.reset} ")
                 digitalocean(api_key, droplet_name)
 
+        # Mode: etc
         if mode == "etc":
             if config:
-                droplet_name = input(f"{colors.yellow}Enter the name you want for the droplet(s):{colors.reset} ")
-                etc_hosts(api_key, droplet_name)
+                etc_hosts(api_key)
 
         # Mode: cmd
         elif mode == "cmd":
@@ -54,7 +60,7 @@ def main():
                 else:
                     commands(api_key, verbose, user, name, cmd)
             else:
-                print(f"{colors.red}Missing one or more of the following arguments: --cmd|--user|--name{colors.reset}")
+                print(f"{colors.red}Missing one or more of the following arguments: --cmd{colors.reset}")
                 sys.exit(1)
 
         # Mode: wordlist
@@ -65,8 +71,26 @@ def main():
                 else:
                     commands_wordlist(api_key, verbose, user, name, cmd, wordlist)
             else:
-                print(f"{colors.red}Missing one or more of the following arguments: --cmd|--user|--name|--wordlist{colors.reset}")
+                print(f"{colors.red}Missing one or more of the following arguments: --cmd|--wordlist{colors.reset}")
                 sys.exit(1)
+
+        # Mode: upload
+        elif mode == "upload":
+            if destination and data:
+                upload(api_key, user, name, destination, data)
+            else:
+                print(f"{colors.red}Missing one or more of the following arguments: --data|--destination{colors.reset}")
+                sys.exit(1)
+
+        # Mode: download
+        elif mode == "download":
+            if destination and data:
+                download(api_key, user, name, destination, data)
+
+            else:
+                print(f"{colors.red}Missing one or more of the following arguments: --data|--destination{colors.reset}")
+                sys.exit(1)
+
         else:
             print(f"{colors.red}INVALID 'mode' SPECIFIED...{colors.end}")
             sys.exit(1)
