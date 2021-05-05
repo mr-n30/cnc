@@ -14,7 +14,7 @@ def list_available_distribution_images(api_key):
         json_data = json.loads(r.text)
 
         for image in json_data["images"]:
-            print(f"{colors.inverted}{image['slug']}{colors.reset}")
+            print(f"{colors.yellow}{image['slug']}{colors.reset}")
 
             if image["status"] == "available":
                 print(image["regions"])

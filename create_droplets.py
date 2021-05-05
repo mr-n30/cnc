@@ -12,13 +12,15 @@ def create_droplets(api_key, amount, name, region, size, image):
         }
 
         # SSH public key
-        ssh_choice = input(f"{colors.yellow}Do you want to create a new SSH public key? (y/n){colors.reset} ")
+        ssh_choice = input(f"{colors.yellow}Do you want to use an existing SSH public key? (y/n){colors.reset} ")
 
-        if ssh_choice.lower() == 'y':
+        if ssh_choice.lower() == 'n':
+            ssh_key = input(f"{colors.yellow}Enter your SSH key:{colors.reset} ")
+
             # Create SSH public key
             ssh_creation = requests.post("https://api.digitalocean.com/v2/account/keys", headers=headers, json={
                 "name": "CNC SSH KEY",
-                "public_key": ssh_key
+                "public_key": str(ssh_key)
             })
 
             ssh_json_data = json.loads(ssh_creation.text)
@@ -31,9 +33,9 @@ def create_droplets(api_key, amount, name, region, size, image):
             ssh_json_data = json.loads(ssh_creation.text)
 
             for i in ssh_json_data["ssh_keys"]:
-                print(f"ID:{i['id']} - {i['name']}")
+                print(f"SSH_KEY_ID: {i['id']} - {i['name']}")
 
-            ssh_id = input(f"{colors.yellow}Enter the ID value of the SSH key you'd like to use:{colors.reset} ")
+            ssh_id = input(f"{colors.yellow}Enter the SSH_KEY_ID value of the SSH key you'd like to use:{colors.reset} ")
             print(f"You entered: {ssh_id}")
 
         if int(amount) <= 1:

@@ -9,7 +9,7 @@ from list_available_distribution_images import *
 def digitalocean(api_key, name):
     try:
         # List available images
-        print(f"{colors.inverted}Listing available distributions and regions:{colors.reset}")
+        print(f"{colors.yellow}Listing available distributions and regions:{colors.reset}")
         list_available_distribution_images(api_key)
 
         distribution = input(f"{colors.yellow}Enter a distribution:{colors.reset} ")
@@ -22,7 +22,7 @@ def digitalocean(api_key, name):
         print(f"You entered: {amount}")
 
         # List available sizes
-        print(f"{colors.inverted}Listing available sizes for:{colors.reset} {distribution}")
+        print(f"{colors.yellow}Listing available sizes for:{colors.reset} {distribution}")
         list_available_sizes(api_key, region)
 
         size = input(f"{colors.yellow}Enter the size of droplet you would like to create:{colors.reset} ")

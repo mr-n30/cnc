@@ -91,10 +91,6 @@ def main():
                 print(f"{colors.red}Missing one or more of the following arguments: --data|--destination{colors.reset}")
                 sys.exit(1)
 
-        else:
-            print(f"{colors.red}INVALID 'mode' SPECIFIED...{colors.end}")
-            sys.exit(1)
-
     except KeyboardInterrupt as e:
         print("")
         print(f"{colors.green}cancelling...{colors.reset}")
