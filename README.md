@@ -15,10 +15,10 @@ digitalocean:
 
 The following configures and creates your droplets
 ```bash
-python3 cnc.py config -c config.yaml
+$ python3 cnc.py config -c config.yaml
 ```
 
 Then run the following to configure your `/etc/hosts`:
 ```bash
-python3 cnc.py etc -c config.yaml
+# python3 cnc.py etc -c config.yaml
 ```
