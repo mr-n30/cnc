@@ -16,9 +16,9 @@ parser.add_argument("mode", help="Options are: config, cmd, wordlist, upload, do
 parser.add_argument("-C", "--cmd", help="Command(s) to run on droplets")
 parser.add_argument("-u", "--user", default="root", help="Username of the droplet running command(s) on (Default is root)")
 parser.add_argument("-n", "--name", default='*', help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
-parser.add_argument("-c", "--config", required=True, help="Path to your config.yaml file containing your API key")
+parser.add_argument("-c", "--config", required=True, help="Path to your key.yaml file containing your API key")
 parser.add_argument("-v", "--verbose", action="store_true", help="If enabled command output will be printed to the terminal")
-parser.add_argument("-w", "--wordlist", help="Name of the droplet running the command(s) on e.g droplet* or droplet1,droplet2,...")
+parser.add_argument("-w", "--wordlist", help="Will read each line in the wordlist and replace the FUZZ keyword in the command with it")
 parser.add_argument("-d", "--data", help="Data to upload/download to/from droplet(s) using scp -r (Can be a file or directory)")
 parser.add_argument("-D", "--destination", help="Directory where to save data too using scp -r (Default is ~/)")
 
