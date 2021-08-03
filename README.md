@@ -1,5 +1,5 @@
 # cnc
-Command aNd Control multiple servers
+Command aNd Control multiple servers from [DigitalOcean](https://www.digitalocean.com/)
 
 # Installation
 ```bash
